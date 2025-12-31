@@ -173,11 +173,6 @@ curl "http://localhost:5000/api/weather?lat=28.6139&lon=77.2090"
 
 MIT License - feel free to use this project for learning and building.
 
-## 🙏 Acknowledgments
-
-- **ECMWF** for ERA5 reanalysis data
-- **Copernicus Climate Data Store** for data access
-- **OpenStreetMap** and **CARTO** for map tiles
 
 ---
 
