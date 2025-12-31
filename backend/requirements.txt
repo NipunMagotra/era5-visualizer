@@ -1,0 +1,19 @@
+# Flask and extensions
+flask>=3.0.0
+flask-cors>=4.0.0
+flask-sqlalchemy>=3.1.1
+python-dotenv>=1.0.0
+
+# Scientific computing
+numpy>=1.26.0
+xarray>=2024.1.0
+netCDF4>=1.6.5
+
+# Database
+sqlalchemy>=2.0.0
+
+# Production server
+gunicorn>=21.2.0
+
+# Optional: CDS API for data fetching
+# cdsapi>=0.6.1
