@@ -35,6 +35,7 @@ era5-visualizer/
 │   ├── weather_service.py  # NetCDF data processing
 │   ├── data_fetcher.py     # CDS API integration
 │   ├── requirements.txt    # Python dependencies
+│   ├── Dockerfile          # Backend container
 │   └── data/               # NetCDF files
 ├── frontend/
 │   ├── src/
@@ -42,7 +43,10 @@ era5-visualizer/
 │   │   ├── services/       # API services
 │   │   ├── App.jsx         # Main application
 │   │   └── index.css       # Tailwind styles
-│   └── package.json
+│   ├── package.json
+│   ├── Dockerfile          # Frontend container
+│   └── nginx.conf          # Production web server
+├── docker-compose.yml      # Container orchestration
 └── README.md
 ```
 
@@ -52,46 +56,69 @@ era5-visualizer/
 
 - Node.js 18+ and npm
 - Python 3.10+
+- Docker (optional)
 
-### Backend Setup
+### Option 1: Docker (Recommended)
 
-1. **Create virtual environment**:
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/NipunMagotra/era5-visualizer.git
+cd era5-visualizer
 
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+# Copy environment file
+cp .env.example .env
 
-3. **Generate sample data** (or use real ERA5 data):
-   ```bash
-   python data_fetcher.py
-   ```
+# Build and run
+docker-compose up --build
+```
 
-4. **Run the backend**:
-   ```bash
-   python app.py
-   ```
-   Backend runs at http://localhost:5000
+Access at: http://localhost:80
 
-### Frontend Setup
+### Option 2: Local Development
 
-1. **Install dependencies**:
-   ```bash
-   cd frontend
-   npm install
-   ```
+#### Backend Setup
 
-2. **Run development server**:
-   ```bash
-   npm run dev
-   ```
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
 
-3. **Access at** http://localhost:5173
+Backend runs at http://localhost:5000
+
+#### Frontend Setup
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend runs at http://localhost:5173
+
+## ☁️ Cloud Deployment
+
+### Deploy to Render (Free)
+
+#### Backend Web Service:
+1. Create new Web Service on Render
+2. Connect GitHub repository
+3. Settings:
+   - **Root Directory**: `backend`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `gunicorn app:app`
+4. Add environment variable: `SECRET_KEY`
+
+#### Frontend Static Site:
+1. Create new Static Site on Render
+2. Connect same repository
+3. Settings:
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm install && npm run build`
+   - **Publish Directory**: `dist`
+4. Add environment variable: `VITE_API_URL` = your backend URL
 
 ## 📡 API Endpoints
 
@@ -108,55 +135,21 @@ era5-visualizer/
 curl "http://localhost:5000/api/weather?lat=28.6139&lon=77.2090"
 ```
 
-Response:
-```json
-{
-  "temperature": {
-    "celsius": 25.5,
-    "kelvin": 298.65,
-    "unit": "°C"
-  },
-  "precipitation": {
-    "millimeters": 0.05,
-    "unit": "mm"
-  },
-  "pressure": {
-    "hectopascal": 1013.25,
-    "unit": "hPa"
-  },
-  "wind": {
-    "speed": 3.2,
-    "direction": 225.0
-  }
-}
-```
-
 ## 🌍 ERA5 Data
 
 ### Getting Real ERA5 Data
 
-1. **Register at [Copernicus CDS](https://cds.climate.copernicus.eu/)**
-
-2. **Get your API key** from your profile page
-
-3. **Set up credentials**:
-   ```bash
-   # Create ~/.cdsapirc
+1. Register at [Copernicus CDS](https://cds.climate.copernicus.eu/)
+2. Get your API key from your profile
+3. Create `~/.cdsapirc`:
+   ```
    url: https://cds.climate.copernicus.eu/api/v2
    key: <your-api-key>
    ```
-
-4. **Fetch data**:
-   ```python
-   from data_fetcher import ERA5DataFetcher
-   
-   fetcher = ERA5DataFetcher()
-   fetcher.fetch_single_time(
-       year='2023',
-       month='01',
-       day='15',
-       time='12:00'
-   )
+4. Run data fetcher:
+   ```bash
+   cd backend
+   python data_fetcher.py
    ```
 
 ### Variables Included
@@ -175,22 +168,6 @@ Response:
 - **South**: 6.0°N  
 - **West**: 68.1°E
 - **East**: 97.4°E
-
-## ☁️ Deployment
-
-### Backend (Render/Railway)
-
-1. Connect your GitHub repo
-2. Set build command: `pip install -r requirements.txt`
-3. Set start command: `gunicorn app:app`
-
-### Frontend (Vercel/Netlify)
-
-1. Connect your repository
-2. Set build command: `npm run build`
-3. Set publish directory: `dist`
-4. Add environment variable:
-   - `VITE_API_URL` = your backend URL
 
 ## 📝 License
 
