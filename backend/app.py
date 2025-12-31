@@ -15,12 +15,8 @@ from weather_service import get_weather_service
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Enable CORS - Allow all origins in production (Railway provides HTTPS)
-# In production, you may want to restrict this to your frontend domain
-allowed_origins = os.getenv('ALLOWED_ORIGINS', '*').split(',')
-CORS(app, origins=allowed_origins if allowed_origins != ['*'] else '*', 
-     methods=['GET', 'POST', 'OPTIONS'],
-     allow_headers=['Content-Type', 'Authorization'])
+# Enable CORS
+CORS(app, origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"])
 
 # Initialize database
 db = SQLAlchemy(app)
@@ -150,6 +146,4 @@ with app.app_context():
 
 
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5000))
-    debug = os.getenv('FLASK_ENV', 'production') == 'development'
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    app.run(host='0.0.0.0', port=5000, debug=True)

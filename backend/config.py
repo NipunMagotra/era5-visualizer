@@ -13,12 +13,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Database - SQLite for development, PostgreSQL for production
-    # Railway uses postgres:// but SQLAlchemy requires postgresql://
-    _database_url = os.getenv('DATABASE_URL', '')
-    if _database_url.startswith('postgres://'):
-        _database_url = _database_url.replace('postgres://', 'postgresql://', 1)
-    
-    SQLALCHEMY_DATABASE_URI = _database_url or (
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        'DATABASE_URL',
         'sqlite:///' + os.path.join(os.path.dirname(__file__), 'data', 'era5.db')
     )
     
