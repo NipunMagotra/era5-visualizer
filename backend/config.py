@@ -13,9 +13,14 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Database - SQLite for development, PostgreSQL for production
+    # Ensure the data directory exists at runtime
+    _DB_DIR = os.path.join(os.path.dirname(__file__), 'data')
+    if not os.path.exists(_DB_DIR):
+        os.makedirs(_DB_DIR, exist_ok=True)
+    
     SQLALCHEMY_DATABASE_URI = os.getenv(
         'DATABASE_URL',
-        'sqlite:///' + os.path.join(os.path.dirname(__file__), 'data', 'era5.db')
+        'sqlite:///' + os.path.join(_DB_DIR, 'era5.db')
     )
     
     # CDS API
@@ -23,7 +28,7 @@ class Config:
     CDS_API_URL = os.getenv('CDS_API_URL', 'https://cds.climate.copernicus.eu/api/v2')
     
     # ERA5 Data Settings
-    DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
+    DATA_DIR = _DB_DIR
     NETCDF_FILE = os.path.join(DATA_DIR, 'india_era5.nc')
     
     # India Bounding Box [North, West, South, East]
