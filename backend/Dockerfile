@@ -30,12 +30,10 @@ COPY . .
 # Create data directory if it doesn't exist
 RUN mkdir -p data
 
-# Expose port
-EXPOSE 5000
+# Railway assigns PORT dynamically, expose it
+ENV PORT=5000
+EXPOSE $PORT
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:5000/api/health')" || exit 1
-
-# Run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--threads", "4", "app:app"]
+# Run the application with Railway's PORT
+# Note: Railway will override $PORT at runtime
+CMD gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 app:app

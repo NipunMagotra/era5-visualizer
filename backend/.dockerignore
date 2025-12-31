@@ -1,4 +1,38 @@
-# Ignore everything in this directory
-*
-# Except this file
-!.gitkeep
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Environment files (should be in Railway env vars)
+.env
+.env.local
+
+# Database files (use Railway PostgreSQL)
+*.db
+data/*.db
+
+# Local development files
+*.md
+!README.md
+.dockerignore
+
+# Test files
+tests/
+test_*.py
+*_test.py
