@@ -16,16 +16,27 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 # Enable CORS - Support both localhost and production URLs
-cors_origins = os.getenv('FRONTEND_URL', 'http://localhost:5173').split(',')
+# Enable CORS - Support both localhost and production URLs
+cors_origins = os.getenv('FRONTEND_URL', '').split(',')
+cors_origins = [o.strip() for o in cors_origins if o.strip()]
 cors_origins.extend([
     'http://localhost:5173', 
     'http://localhost:5174', 
     'http://localhost:3000',
-    'https://era5-visualizer.vercel.app'  # Vercel production frontend
+    'https://era5-visualizer.vercel.app'
 ])
 unique_origins = list(set(cors_origins))
-print(f"Configuring CORS for origins: {unique_origins}")  # Log for debugging
-CORS(app, origins=unique_origins)
+print(f"Configuring CORS for origins: {unique_origins}")
+
+# Allow specific origins for strictly controlled access, but also
+# enable permissive CORS for /api/ routes to ensure production connectivity
+CORS(app, resources={
+    r"/api/*": {
+        "origins": unique_origins + ["*"],  
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
 # Initialize database
 db.init_app(app)
