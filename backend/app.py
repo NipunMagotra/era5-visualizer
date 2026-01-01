@@ -23,7 +23,9 @@ cors_origins.extend([
     'http://localhost:3000',
     'https://era5-visualizer.vercel.app'  # Vercel production frontend
 ])
-CORS(app, origins=list(set(cors_origins)))  # Remove duplicates
+unique_origins = list(set(cors_origins))
+print(f"Configuring CORS for origins: {unique_origins}")  # Log for debugging
+CORS(app, origins=unique_origins)
 
 # Initialize database
 db.init_app(app)
