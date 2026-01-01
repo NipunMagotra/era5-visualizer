@@ -18,10 +18,16 @@ class Config:
     if not os.path.exists(_DB_DIR):
         os.makedirs(_DB_DIR, exist_ok=True)
     
-    SQLALCHEMY_DATABASE_URI = os.getenv(
+    # Get DATABASE_URL and fix Railway's postgres:// to postgresql://
+    _DATABASE_URL = os.getenv(
         'DATABASE_URL',
         'sqlite:///' + os.path.join(_DB_DIR, 'era5.db')
     )
+    # Railway uses postgres:// but SQLAlchemy 2.0 requires postgresql://
+    if _DATABASE_URL.startswith('postgres://'):
+        _DATABASE_URL = _DATABASE_URL.replace('postgres://', 'postgresql://', 1)
+    
+    SQLALCHEMY_DATABASE_URI = _DATABASE_URL
     
     # CDS API
     CDS_API_KEY = os.getenv('CDS_API_KEY', '')
