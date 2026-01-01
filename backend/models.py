@@ -2,9 +2,7 @@
 Database models for the ERA5 Visualizer.
 """
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from extensions import db
 
 
 class WeatherQuery(db.Model):

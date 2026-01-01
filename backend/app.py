@@ -6,8 +6,8 @@ import os
 import logging
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
 
+from extensions import db
 from config import Config
 from weather_service import get_weather_service
 
@@ -26,7 +26,7 @@ cors_origins.extend([
 CORS(app, origins=list(set(cors_origins)))  # Remove duplicates
 
 # Initialize database
-db = SQLAlchemy(app)
+db.init_app(app)
 
 # Logging
 logging.basicConfig(level=logging.INFO)
