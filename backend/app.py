@@ -17,7 +17,12 @@ app.config.from_object(Config)
 
 # Enable CORS - Support both localhost and production URLs
 cors_origins = os.getenv('FRONTEND_URL', 'http://localhost:5173').split(',')
-cors_origins.extend(['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'])
+cors_origins.extend([
+    'http://localhost:5173', 
+    'http://localhost:5174', 
+    'http://localhost:3000',
+    'https://era5-visualizer.vercel.app'  # Vercel production frontend
+])
 CORS(app, origins=list(set(cors_origins)))  # Remove duplicates
 
 # Initialize database
