@@ -1,6 +1,3 @@
-"""
-Weather Service - Processes ERA5 NetCDF data and provides weather information.
-"""
 import os
 import logging
 import numpy as np
@@ -20,18 +17,13 @@ logger = logging.getLogger(__name__)
 
 
 class WeatherService:
-    """
-    Service for processing and retrieving weather data from ERA5 NetCDF files.
-    """
     
     def __init__(self, netcdf_path: str = None):
-        """Initialize the weather service."""
         self.netcdf_path = netcdf_path or Config.NETCDF_FILE
         self.dataset = None
         self._load_dataset()
     
     def _load_dataset(self):
-        """Load the NetCDF dataset."""
         if not XARRAY_AVAILABLE:
             logger.error("xarray not installed. Weather service unavailable.")
             return
@@ -52,17 +44,14 @@ class WeatherService:
             self.dataset = None
     
     def reload_dataset(self):
-        """Reload the dataset (useful after new data is fetched)."""
         if self.dataset is not None:
             self.dataset.close()
         self._load_dataset()
     
     def is_available(self) -> bool:
-        """Check if the service is available."""
         return self.dataset is not None
     
     def get_bounds(self) -> Dict[str, float]:
-        """Get the spatial bounds of the dataset."""
         if not self.is_available():
             return None
         
@@ -79,51 +68,41 @@ class WeatherService:
         lon: float,
         time_idx: int = 0
     ) -> Optional[Dict[str, Any]]:
-        """
-        Get weather data at a specific point using nearest neighbor interpolation.
-        """
         if not self.is_available():
             return None
         
         try:
-            # Select point using nearest neighbor
             point_data = self.dataset.sel(
                 latitude=lat,
                 longitude=lon,
                 method='nearest'
             )
             
-            # Handle time dimension if present
             if 'time' in point_data.dims:
                 point_data = point_data.isel(time=time_idx)
             
-            # Extract values
             def get_value(var_name):
                 if var_name in point_data:
                     val = point_data[var_name].values
                     return float(val) if np.isscalar(val) or val.ndim == 0 else float(val.item())
                 return None
             
-            # Get raw values
             temp_k = get_value('t2m')
             precip_m = get_value('tp')
             pressure_pa = get_value('sp')
             wind_u = get_value('u10')
             wind_v = get_value('v10')
             
-            # Calculate derived values
             temp_c = temp_k - 273.15 if temp_k else None
             precip_mm = precip_m * 1000 if precip_m else None
             pressure_hpa = pressure_pa / 100 if pressure_pa else None
             
-            # Calculate wind speed and direction
             wind_speed = None
             wind_direction = None
             if wind_u is not None and wind_v is not None:
                 wind_speed = np.sqrt(wind_u**2 + wind_v**2)
                 wind_direction = (270 - np.degrees(np.arctan2(wind_v, wind_u))) % 360
             
-            # Get actual coordinates used
             actual_lat = float(point_data.latitude.values)
             actual_lon = float(point_data.longitude.values)
             
@@ -175,7 +154,6 @@ class WeatherService:
         time_idx: int = 0,
         downsample: int = 1
     ) -> Optional[Dict[str, Any]]:
-        """Get gridded data for a variable over a region."""
         if not self.is_available():
             return None
         
@@ -220,7 +198,6 @@ class WeatherService:
             return None
     
     def get_dataset_info(self) -> Optional[Dict[str, Any]]:
-        """Get information about the loaded dataset."""
         if not self.is_available():
             return None
         
@@ -234,12 +211,10 @@ class WeatherService:
         }
 
 
-# Global service instance
 _weather_service = None
 
 
 def get_weather_service() -> WeatherService:
-    """Get or create the global weather service instance."""
     global _weather_service
     if _weather_service is None:
         _weather_service = WeatherService()

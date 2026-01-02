@@ -1,6 +1,3 @@
-"""
-ERA5 Data Fetcher - Downloads climate data from Copernicus Climate Data Store.
-"""
 import os
 import logging
 from datetime import datetime
@@ -19,12 +16,6 @@ logger = logging.getLogger(__name__)
 
 
 class ERA5DataFetcher:
-    """
-    Fetches ERA5 reanalysis data from the Copernicus Climate Data Store.
-    
-    Requires CDS API credentials. Get your API key from:
-    https://cds.climate.copernicus.eu/
-    """
     
     VARIABLES = [
         '2m_temperature',
@@ -34,11 +25,9 @@ class ERA5DataFetcher:
         '10m_v_component_of_wind'
     ]
     
-    # India bounding box [North, West, South, East]
     INDIA_BOUNDS = [35.5, 68.1, 6.0, 97.4]
     
     def __init__(self, output_dir: str = None):
-        """Initialize the data fetcher."""
         self.output_dir = output_dir or Config.DATA_DIR
         os.makedirs(self.output_dir, exist_ok=True)
         
@@ -63,7 +52,6 @@ class ERA5DataFetcher:
         time: str = '12:00',
         output_filename: str = None
     ) -> Optional[str]:
-        """Fetch ERA5 data for a single time point."""
         if not self.available:
             logger.error("CDS API not available. Cannot fetch data.")
             return None
@@ -100,10 +88,6 @@ class ERA5DataFetcher:
 
 
 def create_sample_data():
-    """
-    Create sample NetCDF data for development/testing.
-    This creates synthetic data that mimics ERA5 structure.
-    """
     import numpy as np
     
     try:
@@ -115,15 +99,12 @@ def create_sample_data():
     output_dir = Config.DATA_DIR
     os.makedirs(output_dir, exist_ok=True)
     
-    # Create coordinate arrays
     lat = np.arange(6.0, 36.0, 0.25)
     lon = np.arange(68.0, 98.0, 0.25)
     time = np.array(['2023-01-01T12:00:00'], dtype='datetime64[ns]')
     
-    # Create meshgrid for realistic patterns
     lon_mesh, lat_mesh = np.meshgrid(lon, lat)
     
-    # Generate sample data
     base_temp = 290 + 15 * np.sin(np.radians(lat_mesh - 6) * 2)
     temp_variation = 5 * np.cos(np.radians(lon_mesh - 83) * 3)
     t2m = base_temp + temp_variation + np.random.normal(0, 2, base_temp.shape)
@@ -136,7 +117,6 @@ def create_sample_data():
     u10 = 3 * np.cos(np.radians(lat_mesh * 2)) + np.random.normal(0, 1, base_temp.shape)
     v10 = 2 * np.sin(np.radians(lon_mesh * 2)) + np.random.normal(0, 1, base_temp.shape)
     
-    # Create xarray Dataset
     ds = xr.Dataset(
         {
             't2m': (['time', 'latitude', 'longitude'], t2m[np.newaxis, :, :]),
@@ -157,7 +137,6 @@ def create_sample_data():
         }
     )
     
-    # Add variable attributes
     ds.t2m.attrs = {'units': 'K', 'long_name': '2 metre temperature'}
     ds.tp.attrs = {'units': 'm', 'long_name': 'Total precipitation'}
     ds.sp.attrs = {'units': 'Pa', 'long_name': 'Surface pressure'}

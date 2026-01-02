@@ -1,9 +1,3 @@
-/**
- * Footer Component
- * Minimal footer with duotone external link icons
- */
-
-// Duotone External Link Icon
 const ExternalLinkIcon = () => (
     <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none">
         <path d="M18 13V19C18 20.1046 17.1046 21 16 21H5C3.89543 21 3 20.1046 3 19V8C3 6.89543 3.89543 6 5 6H11"
@@ -13,7 +7,6 @@ const ExternalLinkIcon = () => (
     </svg>
 );
 
-// Duotone Database Icon
 const DataIcon = () => (
     <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
         <ellipse cx="12" cy="6" rx="8" ry="3" fill="currentColor" opacity="0.15" />

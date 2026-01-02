@@ -1,13 +1,6 @@
 @import "tailwindcss";
 
-/* 
- * ERA5 Weather Dashboard - Deep Black Theme
- * Electric Blue & Cyber Lime accent colors
- * Premium typography with Inter font stack
- */
-
 @theme {
-  /* Deep Black Background Palette */
   --color-black: #000000;
   --color-gray-950: #050505;
   --color-gray-900: #0a0a0a;
@@ -22,7 +15,6 @@
   --color-gray-100: #d4d4d4;
   --color-gray-50: #fafafa;
 
-  /* Primary Accent - Electric Blue */
   --color-electric-50: #e6f3ff;
   --color-electric-100: #b3daff;
   --color-electric-200: #80c1ff;
@@ -34,7 +26,6 @@
   --color-electric-800: #003166;
   --color-electric-900: #001933;
 
-  /* Secondary Accent - Cyber Lime */
   --color-lime-50: #eaffea;
   --color-lime-100: #c0ffc0;
   --color-lime-200: #96ff96;
@@ -46,20 +37,17 @@
   --color-lime-800: #146600;
   --color-lime-900: #0a3300;
 
-  /* Semantic Colors */
   --color-success: #32FF00;
   --color-warning: #ffb800;
   --color-error: #ff3b3b;
   --color-info: #007BFF;
 
-  /* Weather Variable Colors */
   --color-temp: #ff6b35;
   --color-rain: #007BFF;
   --color-pressure: #9d4edd;
   --color-wind: #32FF00;
 }
 
-/* Base Reset */
 *,
 *::before,
 *::after {
@@ -90,7 +78,6 @@ body {
   flex-direction: column;
 }
 
-/* Typography with Inter */
 .text-display {
   font-family: 'Inter', sans-serif;
   font-size: 2rem;
@@ -128,7 +115,6 @@ body {
   letter-spacing: -0.02em;
 }
 
-/* Scrollbar - Minimal */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -146,10 +132,6 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-gray-500);
 }
-
-/* ================================
-   GLASSMORPHISM COMPONENTS
-   ================================ */
 
 .glass {
   background: rgba(20, 20, 20, 0.6);
@@ -178,10 +160,6 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-/* ================================
-   CARD STYLES
-   ================================ */
-
 .card {
   background-color: var(--color-gray-900);
   border: 1px solid var(--color-gray-800);
@@ -195,7 +173,6 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* Metric Card */
 .metric-card {
   background-color: var(--color-gray-900);
   border: 1px solid var(--color-gray-800);
@@ -233,10 +210,6 @@ body {
   color: var(--color-gray-500);
   margin-bottom: 0.5rem;
 }
-
-/* ================================
-   STATUS & BADGES
-   ================================ */
 
 .status-dot {
   width: 8px;
@@ -286,10 +259,6 @@ body {
   border-color: rgba(50, 255, 0, 0.25);
 }
 
-/* ================================
-   TIME RANGE SELECTOR
-   ================================ */
-
 .time-range-selector {
   display: flex;
   align-items: center;
@@ -326,10 +295,6 @@ body {
 .time-range-btn.active:hover {
   background: var(--color-electric-400);
 }
-
-/* ================================
-   LEAFLET MAP CUSTOMIZATION
-   ================================ */
 
 .leaflet-container {
   background: var(--color-black) !important;
@@ -378,7 +343,6 @@ body {
   color: var(--color-gray-400) !important;
 }
 
-/* Leaflet Popup */
 .leaflet-popup-content-wrapper {
   background: var(--color-gray-900) !important;
   color: var(--color-gray-100) !important;
@@ -399,7 +363,6 @@ body {
   border-left: none !important;
 }
 
-/* Map Container */
 .map-container {
   height: 500px;
   border-radius: 12px;
@@ -418,17 +381,12 @@ body {
   }
 }
 
-/* Chart Container */
 .chart-container {
   background-color: var(--color-gray-900);
   border: 1px solid var(--color-gray-800);
   border-radius: 12px;
   padding: 1.25rem;
 }
-
-/* ================================
-   ANIMATIONS
-   ================================ */
 
 @keyframes spin {
   to {
@@ -450,7 +408,6 @@ body {
   height: 32px;
 }
 
-/* Skeleton Loading */
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -471,7 +428,6 @@ body {
   border-radius: 4px;
 }
 
-/* Fade In */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -488,7 +444,6 @@ body {
   animation: fadeIn 0.3s ease-out forwards;
 }
 
-/* Glow Pulse */
 @keyframes glowPulse {
 
   0%,
@@ -504,10 +459,6 @@ body {
 .glow-pulse {
   animation: glowPulse 2s ease-in-out infinite;
 }
-
-/* ================================
-   UTILITY CLASSES
-   ================================ */
 
 .divider {
   height: 1px;
@@ -536,7 +487,6 @@ body {
   background: linear-gradient(90deg, var(--color-lime-600), var(--color-lime-400));
 }
 
-/* Icon Wrapper - Duotone Style Base */
 .icon-wrapper {
   display: flex;
   align-items: center;
@@ -553,7 +503,6 @@ body {
   border-radius: 6px;
 }
 
-/* Duotone Icon Colors */
 .icon-duotone {
   position: relative;
 }
@@ -566,19 +515,16 @@ body {
   opacity: 1;
 }
 
-/* Focus States */
 :focus-visible {
   outline: 2px solid var(--color-electric-500);
   outline-offset: 2px;
 }
 
-/* Selection */
 ::selection {
   background-color: rgba(0, 123, 255, 0.3);
   color: var(--color-gray-50);
 }
 
-/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -616,7 +562,6 @@ body {
   border-color: var(--color-gray-600);
 }
 
-/* Transition Helpers */
 .transition-fast {
   transition: all 0.15s ease;
 }
@@ -624,10 +569,6 @@ body {
 .transition-normal {
   transition: all 0.2s ease;
 }
-
-/* ================================
-   WEATHER VARIABLE COLORS
-   ================================ */
 
 .color-temp {
   color: var(--color-temp);
@@ -677,7 +618,6 @@ body {
   border-color: rgba(50, 255, 0, 0.25);
 }
 
-/* Electric Blue Highlight */
 .text-electric {
   color: var(--color-electric-500);
 }

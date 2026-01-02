@@ -1,7 +1,3 @@
-/**
- * ERA5 Weather Visualizer - Main Application
- * Deep Black theme with Electric Blue & Cyber Lime accents
- */
 import { useState, useCallback } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -38,13 +34,10 @@ function App() {
 
     return (
         <div className="min-h-screen bg-black">
-            {/* Header */}
             <Header />
 
-            {/* Main Content */}
             <main className="px-4 md:px-6 lg:px-8 pb-6">
                 <div className="max-w-[1440px] mx-auto">
-                    {/* Error Alert */}
                     {error && (
                         <div className="mb-4 p-4 rounded-xl glass border border-red-500/30 fade-in">
                             <div className="flex items-center gap-3">
@@ -66,14 +59,11 @@ function App() {
                         </div>
                     )}
 
-                    {/* Metric Summary Bar */}
                     <section className="mb-4">
                         <MetricBar weatherData={weatherData} isLoading={isLoading} />
                     </section>
 
-                    {/* Main Dashboard Grid */}
                     <section className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                        {/* Map Panel - Primary Interaction */}
                         <div className="lg:col-span-7 xl:col-span-8">
                             <div className="card p-4">
                                 <div className="flex items-center justify-between mb-3">
@@ -96,7 +86,6 @@ function App() {
                             </div>
                         </div>
 
-                        {/* Analysis Panel - Right Side */}
                         <div className="lg:col-span-5 xl:col-span-4">
                             <AnalysisPanel
                                 weatherData={weatherData}
@@ -108,7 +97,6 @@ function App() {
                 </div>
             </main>
 
-            {/* Footer */}
             <Footer />
         </div>
     );

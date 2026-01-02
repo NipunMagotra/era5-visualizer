@@ -1,13 +1,8 @@
-/**
- * WeatherMap Component
- * Interactive map with Electric Blue marker
- */
 import { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Fix for default marker icons
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
@@ -15,7 +10,6 @@ L.Icon.Default.mergeOptions({
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
 });
 
-// Electric Blue marker with glow
 const createMarkerIcon = () => {
     return L.divIcon({
         className: 'custom-marker',
@@ -51,7 +45,6 @@ const createMarkerIcon = () => {
     });
 };
 
-// India bounds
 const INDIA_BOUNDS = {
     north: 35.5,
     south: 6.0,
@@ -101,7 +94,6 @@ export default function WeatherMap({ selectedLocation, onLocationSelect, weather
 
     return (
         <div className="map-container relative">
-            {/* Loading overlay */}
             {isLoading && (
                 <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-[1000] flex items-center justify-center rounded-xl">
                     <div className="text-center">
@@ -161,7 +153,6 @@ export default function WeatherMap({ selectedLocation, onLocationSelect, weather
                 )}
             </MapContainer>
 
-            {/* Instruction hint */}
             {!selectedLocation && !isLoading && (
                 <div className="absolute bottom-3 left-3 z-[500] pointer-events-none">
                     <div className="glass-subtle inline-flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-gray-400">

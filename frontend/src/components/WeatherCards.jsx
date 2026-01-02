@@ -1,9 +1,3 @@
-/**
- * WeatherCards Component
- * Displays key weather metrics in individual cards
- */
-
-// Weather variable configurations
 const WEATHER_CARDS = [
     {
         id: 'temperature',
@@ -62,9 +56,6 @@ const WEATHER_CARDS = [
     },
 ];
 
-/**
- * Individual Weather Card Component
- */
 function WeatherCard({ config, weatherData, isLoading }) {
     const value = weatherData ? config.getValue(weatherData) : '--';
 
@@ -105,9 +96,6 @@ function WeatherCard({ config, weatherData, isLoading }) {
     );
 }
 
-/**
- * Main WeatherCards Component
- */
 export default function WeatherCards({ weatherData, isLoading }) {
     return (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">

@@ -1,7 +1,3 @@
-/**
- * WeatherCharts Component
- * Displays weather data using Chart.js visualizations
- */
 import { useMemo } from 'react';
 import {
     Chart as ChartJS,
@@ -19,7 +15,6 @@ import {
 } from 'chart.js';
 import { Bar, Radar, Doughnut } from 'react-chartjs-2';
 
-// Register Chart.js components
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -34,7 +29,6 @@ ChartJS.register(
     Filler
 );
 
-// Chart colors matching our theme
 const CHART_COLORS = {
     temperature: {
         bg: 'rgba(239, 68, 68, 0.7)',
@@ -58,7 +52,6 @@ const CHART_COLORS = {
     },
 };
 
-// Common chart options
 const commonOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -74,9 +67,6 @@ const commonOptions = {
     },
 };
 
-/**
- * Bar Chart for all weather variables
- */
 function WeatherBarChart({ weatherData }) {
     const data = useMemo(() => ({
         labels: ['Temperature (°C)', 'Precipitation (mm×10)', 'Pressure (hPa/10)', 'Wind U (m/s)', 'Wind V (m/s)'],
@@ -85,8 +75,8 @@ function WeatherBarChart({ weatherData }) {
                 label: 'Weather Variables',
                 data: [
                     weatherData.temperature?.celsius || 0,
-                    (weatherData.precipitation?.millimeters || 0) * 10, // Scale for visibility
-                    (weatherData.pressure?.hectopascal || 0) / 10, // Scale down
+                    (weatherData.precipitation?.millimeters || 0) * 10,
+                    (weatherData.pressure?.hectopascal || 0) / 10,
                     weatherData.wind?.u_component || 0,
                     weatherData.wind?.v_component || 0,
                 ],
@@ -152,11 +142,7 @@ function WeatherBarChart({ weatherData }) {
     );
 }
 
-/**
- * Radar Chart for weather profile
- */
 function WeatherRadarChart({ weatherData }) {
-    // Normalize values to 0-100 scale for radar chart
     const normalizeTemp = (temp) => Math.min(100, Math.max(0, ((temp + 20) / 60) * 100));
     const normalizePrecip = (precip) => Math.min(100, (precip / 10) * 100);
     const normalizePressure = (pressure) => Math.min(100, ((pressure - 900) / 150) * 100);
@@ -229,9 +215,6 @@ function WeatherRadarChart({ weatherData }) {
     );
 }
 
-/**
- * Wind Direction Doughnut Chart
- */
 function WindDirectionChart({ weatherData }) {
     const windSpeed = weatherData.wind?.speed || 0;
     const windDirection = weatherData.wind?.direction || 0;
@@ -288,9 +271,6 @@ function WindDirectionChart({ weatherData }) {
     );
 }
 
-/**
- * Main WeatherCharts Component
- */
 export default function WeatherCharts({ weatherData }) {
     if (!weatherData) {
         return (
@@ -306,7 +286,6 @@ export default function WeatherCharts({ weatherData }) {
 
     return (
         <div className="space-y-6 fade-in">
-            {/* Location Header */}
             <div className="glass-card p-4">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
@@ -323,17 +302,14 @@ export default function WeatherCharts({ weatherData }) {
                 </div>
             </div>
 
-            {/* Charts Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <WeatherBarChart weatherData={weatherData} />
                 <WeatherRadarChart weatherData={weatherData} />
             </div>
 
-            {/* Wind Direction Chart */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <WindDirectionChart weatherData={weatherData} />
 
-                {/* Additional Info Card */}
                 <div className="chart-container flex flex-col justify-center">
                     <h4 className="text-lg font-semibold text-white mb-4">Wind Components</h4>
                     <div className="space-y-4">

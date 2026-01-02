@@ -1,7 +1,3 @@
-/**
- * AnalysisPanel Component
- * Weather analysis with Electric Blue & Cyber Lime theme
- */
 import { useMemo } from 'react';
 import {
     Chart as ChartJS,
@@ -17,7 +13,6 @@ import {
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
 
-// Register Chart.js components
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -30,7 +25,6 @@ ChartJS.register(
     Legend
 );
 
-// Electric Blue & Cyber Lime color palette
 const COLORS = {
     temp: { bg: 'rgba(255, 107, 53, 0.8)', border: 'rgb(255, 107, 53)' },
     rain: { bg: 'rgba(0, 123, 255, 0.8)', border: 'rgb(0, 123, 255)' },
@@ -39,7 +33,6 @@ const COLORS = {
     windV: { bg: 'rgba(0, 200, 150, 0.8)', border: 'rgb(0, 200, 150)' },
 };
 
-// Chart options with dark theme
 const baseChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -59,7 +52,6 @@ const baseChartOptions = {
     },
 };
 
-// Duotone Chart Icon
 const ChartIcon = () => (
     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
         <rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor" opacity="0.15" />
@@ -69,7 +61,6 @@ const ChartIcon = () => (
     </svg>
 );
 
-// Duotone Location Icon
 const LocationIcon = () => (
     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
         <path d="M12 21C12 21 19 14.5 19 9C19 5.13401 15.866 2 12 2C8.13401 2 5 5.13401 5 9C5 14.5 12 21 12 21Z"
@@ -80,7 +71,6 @@ const LocationIcon = () => (
     </svg>
 );
 
-// Duotone Wind Icon
 const WindDetailIcon = () => (
     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
         <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.1" />
@@ -89,9 +79,6 @@ const WindDetailIcon = () => (
     </svg>
 );
 
-/**
- * Weather Variables Bar Chart
- */
 function VariablesChart({ weatherData }) {
     const data = useMemo(() => ({
         labels: ['Temp', 'Precip', 'Wind U', 'Wind V'],
@@ -157,9 +144,6 @@ function VariablesChart({ weatherData }) {
     );
 }
 
-/**
- * Wind Gauge with Electric Styling
- */
 function WindGauge({ weatherData }) {
     const windSpeed = weatherData.wind?.speed || 0;
     const windDirection = weatherData.wind?.direction || 0;
@@ -210,9 +194,6 @@ function WindGauge({ weatherData }) {
     );
 }
 
-/**
- * Wind Components with Progress Bars
- */
 function WindDetail({ weatherData }) {
     const uComponent = weatherData.wind?.u_component || 0;
     const vComponent = weatherData.wind?.v_component || 0;
@@ -251,9 +232,6 @@ function WindDetail({ weatherData }) {
     );
 }
 
-/**
- * Location Info Card
- */
 function LocationInfo({ weatherData }) {
     return (
         <div className="chart-container">
@@ -291,9 +269,6 @@ function LocationInfo({ weatherData }) {
     );
 }
 
-/**
- * Empty State
- */
 function EmptyState() {
     return (
         <div className="card p-6 h-full flex flex-col items-center justify-center text-center">
@@ -315,9 +290,6 @@ function EmptyState() {
     );
 }
 
-/**
- * Loading State
- */
 function LoadingState() {
     return (
         <div className="card p-6 h-full flex flex-col items-center justify-center">
@@ -327,9 +299,6 @@ function LoadingState() {
     );
 }
 
-/**
- * Main Analysis Panel
- */
 export default function AnalysisPanel({ weatherData, selectedLocation, isLoading }) {
     if (isLoading) {
         return <LoadingState />;

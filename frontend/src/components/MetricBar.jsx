@@ -1,9 +1,3 @@
-/**
- * MetricBar Component
- * Compact summary bar with duotone icons
- */
-
-// Duotone Temperature Icon
 const TempIcon = () => (
     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
         <path d="M12 14V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -14,7 +8,6 @@ const TempIcon = () => (
     </svg>
 );
 
-// Duotone Rain Icon
 const RainIcon = () => (
     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
         <path d="M4 14.899A5.5 5.5 0 0 1 6.5 4.5H7a6 6 0 0 1 11.937 1A5.002 5.002 0 0 1 19 15"
@@ -26,7 +19,6 @@ const RainIcon = () => (
     </svg>
 );
 
-// Duotone Pressure Icon (Gauge)
 const PressureIcon = () => (
     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
         <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
@@ -37,7 +29,6 @@ const PressureIcon = () => (
     </svg>
 );
 
-// Duotone Wind Icon
 const WindIcon = () => (
     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
         <path d="M9.59 4.59A2 2 0 1 1 11 8H2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -111,7 +102,6 @@ function MetricItem({ config, weatherData, isLoading }) {
     );
 }
 
-// Duotone Cursor Icon
 const CursorIcon = () => (
     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
         <path d="M4 4L10.5 20L13 13L20 10.5L4 4Z" fill="currentColor" opacity="0.15" />

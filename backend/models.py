@@ -1,12 +1,8 @@
-"""
-Database models for the ERA5 Visualizer.
-"""
 from datetime import datetime
 from extensions import db
 
 
 class WeatherQuery(db.Model):
-    """Model for logging weather queries."""
     __tablename__ = 'weather_queries'
     
     id = db.Column(db.Integer, primary_key=True)

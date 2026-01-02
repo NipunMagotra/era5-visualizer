@@ -1,7 +1,3 @@
-"""
-ERA5 Visualizer Flask Application
-Full-stack climate data visualization API.
-"""
 import os
 import logging
 from flask import Flask, jsonify, request
@@ -11,12 +7,9 @@ from extensions import db
 from config import Config
 from weather_service import get_weather_service
 
-# Initialize Flask app
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Enable CORS - Support both localhost and production URLs
-# Enable CORS - Support both localhost and production URLs
 cors_origins = os.getenv('FRONTEND_URL', '').split(',')
 cors_origins = [o.strip() for o in cors_origins if o.strip()]
 cors_origins.extend([
@@ -28,8 +21,6 @@ cors_origins.extend([
 unique_origins = list(set(cors_origins))
 print(f"Configuring CORS for origins: {unique_origins}")
 
-# Allow specific origins for strictly controlled access, but also
-# enable permissive CORS for /api/ routes to ensure production connectivity
 CORS(app, resources={
     r"/api/*": {
         "origins": unique_origins + ["*"],  
@@ -38,21 +29,16 @@ CORS(app, resources={
     }
 })
 
-# Initialize database
 db.init_app(app)
 
-# Logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
-# Import models after db initialization
 from models import WeatherQuery
 
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    """Health check endpoint."""
     weather_service = get_weather_service()
     return jsonify({
         'status': 'healthy',
@@ -63,7 +49,6 @@ def health_check():
 
 @app.route('/api/weather', methods=['GET'])
 def get_weather():
-    """Get weather data at a specific point."""
     lat = request.args.get('lat', type=float)
     lon = request.args.get('lon', type=float)
     
@@ -81,7 +66,6 @@ def get_weather():
         if data is None:
             return jsonify({'error': 'Failed to get weather data'}), 500
         
-        # Log the query
         try:
             query = WeatherQuery(
                 latitude=lat,
@@ -103,7 +87,6 @@ def get_weather():
 
 @app.route('/api/weather/grid', methods=['GET'])
 def get_grid_data():
-    """Get gridded data for a variable."""
     variable = request.args.get('variable', 't2m')
     lat_min = request.args.get('lat_min', type=float)
     lat_max = request.args.get('lat_max', type=float)
@@ -134,7 +117,6 @@ def get_grid_data():
 
 @app.route('/api/dataset', methods=['GET'])
 def get_dataset_info():
-    """Get information about the loaded dataset."""
     weather_service = get_weather_service()
     
     if not weather_service.is_available():
@@ -145,7 +127,6 @@ def get_dataset_info():
 
 @app.route('/api/queries', methods=['GET'])
 def get_queries():
-    """Get recent query history."""
     limit = request.args.get('limit', 10, type=int)
     queries = WeatherQuery.query.order_by(WeatherQuery.timestamp.desc()).limit(limit).all()
     return jsonify([q.to_dict() for q in queries])
@@ -153,14 +134,12 @@ def get_queries():
 
 @app.route('/api/stats', methods=['GET'])
 def get_stats():
-    """Get API statistics."""
     total_queries = WeatherQuery.query.count()
     return jsonify({
         'total_queries': total_queries
     })
 
 
-# Create tables
 with app.app_context():
     db.create_all()
 
